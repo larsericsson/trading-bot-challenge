@@ -8,5 +8,8 @@
     "deploy": "parcel build src/index.html; firebase deploy"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "firebase": "7.6.1"
+  }
 }
