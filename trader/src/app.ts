@@ -1,10 +1,10 @@
 import * as Avanza from 'avanza'
-import { Config } from './interfaces';
+import { Config } from './interfaces'
 
 const config: Config = {
-  "username": "user",
-  "password": "pass",
-  "totpSecret": "secret"
+  username: 'user',
+  password: 'pass',
+  totpSecret: 'secret'
 }
 
 const avanza = new Avanza()
