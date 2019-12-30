@@ -1,6 +1,6 @@
 import admin from 'firebase-admin'
-import * as Avanza from 'avanza'
 import { Config } from './interfaces'
+import * as AvanzaService from './services/avanza'
 
 const config: Config = {
   username: 'user',
@@ -8,8 +8,6 @@ const config: Config = {
   totpSecret: 'secret'
 }
 const serviceAccount = require('../service-account-key.json')
-
-const avanza = new Avanza()
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -23,15 +21,7 @@ async function setup() {
     console.log(portfolio.data())
   })
 
-  try {
-    await avanza.authenticate({
-      username: config.username,
-      password: config.password,
-      totpSecret: config.totpSecret
-    })
-  } catch (e) {
-    console.error(e.statusMessage)
-  }
+  AvanzaService.createClient(config)
 }
 
 setup()
