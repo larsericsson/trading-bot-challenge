@@ -13,4 +13,6 @@ export async function createClient(config: Config) {
   } catch (e) {
     console.error(e.statusMessage)
   }
+
+  return avanza
 }

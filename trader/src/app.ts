@@ -21,7 +21,7 @@ async function setup() {
     console.log(portfolio.data())
   })
 
-  AvanzaService.createClient(config)
+  const avanzaClient = AvanzaService.createClient(config)
 }
 
 setup()
