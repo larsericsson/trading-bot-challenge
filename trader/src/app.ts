@@ -1,27 +1,22 @@
-import admin from 'firebase-admin'
 import { Config } from './interfaces'
 import * as AvanzaService from './services/avanza'
+import * as FirestoreService from './services/firestore'
 
 const config: Config = {
   username: 'user',
   password: 'pass',
   totpSecret: 'secret'
 }
-const serviceAccount = require('../service-account-key.json')
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-})
-
-let db = admin.firestore()
 
 async function setup() {
-  const portfolios = await db.collection('portfolios').get()
-  portfolios.forEach(portfolio => {
-    console.log(portfolio.data())
-  })
+  const firestoreClient = await FirestoreService.createClient()
+  const avanzaClient = await AvanzaService.createClient(config)
 
-  const avanzaClient = AvanzaService.createClient(config)
+  // Example firestore client usage
+  const portfolios = await FirestoreService.getPortfolios(firestoreClient)
+  portfolios.forEach(portfolio => {
+    console.log(portfolio.id, portfolio.data().value)
+  })
 }
 
 setup()
