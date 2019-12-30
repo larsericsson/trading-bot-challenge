@@ -1,6 +1,7 @@
 import { Config } from './interfaces'
 import * as AvanzaService from './services/avanza'
 import * as FirestoreService from './services/firestore'
+import { onQuote } from './strategies'
 
 const config: Config = {
   username: 'user',
@@ -10,7 +11,7 @@ const config: Config = {
 
 async function setup() {
   const firestoreClient = await FirestoreService.createClient()
-  const avanzaClient = await AvanzaService.createClient(config)
+  const avanzaClient = await AvanzaService.createClient(config, onQuote)
 
   // Example firestore client usage
   const portfolios = await FirestoreService.getPortfolios(firestoreClient)
