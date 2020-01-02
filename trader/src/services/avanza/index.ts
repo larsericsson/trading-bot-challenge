@@ -1,9 +1,15 @@
 import * as Avanza from 'avanza'
-import { Config } from './../../interfaces'
+import { Config, IQuote } from './../../interfaces'
 
 const avanza = new Avanza()
 
 export async function createClient(config: Config, onQuotes) {
+  // Test onQuote callback
+  const quote: IQuote = {
+    name: 'AAPL'
+  }
+  onQuotes(quote)
+
   try {
     await avanza.authenticate({
       username: config.username,

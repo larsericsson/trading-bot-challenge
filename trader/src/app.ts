@@ -10,7 +10,6 @@ const config: Config = {
 }
 
 async function setup() {
-  console.log(onQuote('quote'))
   const firestoreClient = await FirestoreService.createClient()
   const avanzaClient = await AvanzaService.createClient(config, onQuote)
 
