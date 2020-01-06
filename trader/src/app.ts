@@ -1,17 +1,13 @@
-import { Config } from './interfaces'
+import { IConfig } from './interfaces'
 import * as AvanzaService from './services/avanza'
 import * as FirestoreService from './services/firestore'
 import { onQuote } from './strategies'
 
-const config: Config = {
-  username: 'user',
-  password: 'pass',
-  totpSecret: 'secret'
-}
+const config: IConfig = require('./../config.json')
 
 async function setup() {
   const firestoreClient = await FirestoreService.createClient()
-  const avanzaClient = await AvanzaService.createClient(config, onQuote)
+  const avanzaClient = await AvanzaService.createClient(config.avanza, onQuote)
 
   // Example firestore client usage
   const portfolios = await FirestoreService.getPortfolios(firestoreClient)

@@ -1,7 +1,16 @@
-export interface Config {
+export interface IAvanzaCredentials {
   username: string
   password: string
   totpSecret: string
+}
+
+export interface IAvanzaConfig {
+  credentials: IAvanzaCredentials
+  accountId: string
+}
+
+export interface IConfig {
+  avanza: IAvanzaConfig
 }
 
 export interface IQuote {
