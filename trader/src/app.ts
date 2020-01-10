@@ -8,6 +8,7 @@ const config: IConfig = require('./../config.json')
 async function setup() {
   const firestoreClient = await FirestoreService.createClient()
   const avanzaClient = await AvanzaService.createClient(config.avanza, onQuote)
+  console.log('avanzaClient authenticated:', avanzaClient.isAuthenticated)
 
   // Example firestore client usage
   const portfolios = await FirestoreService.getPortfolios(firestoreClient)
