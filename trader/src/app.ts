@@ -17,21 +17,27 @@ async function setup() {
 
   Strategies.initialize()
 
-  recordPortfolioTask = scheduleJob('*/5 9-18 * * 1-5', async () => {
+  recordPortfolioTask = scheduleJob('recordPortfolio', '*/5 9-18 * * 1-5', async () => {
     const portfolio = await AvanzaService.getPortfolio(avanzaClient, config.avanza.accountId)
     FirestoreService.recordPortfolio(firestoreClient, config.portfolioId, portfolio)
   })
 
   console.log('Application started')
   console.group()
+  console.log(`Portfolio: ${config.portfolioId}`)
   console.log(`Avanza: ${avanzaClient.isAuthenticated ? 'authed' : 'not authed'}`)
+  console.log(
+    `Scheduled next invocation of ${
+      recordPortfolioTask.name
+    } task to ${recordPortfolioTask.nextInvocation()}`
+  )
   console.groupEnd()
 }
 
 async function tearDown() {
   console.log('Shutting down application…')
   recordPortfolioTask.cancel()
-  firestoreClient.terminate()
+  await firestoreClient.terminate()
   process.exit()
 }
 
