@@ -10,6 +10,7 @@ export interface IAvanzaConfig {
 }
 
 export interface IConfig {
+  portfolioId: string
   avanza: IAvanzaConfig
 }
 

@@ -13,13 +13,13 @@ let recordPortfolioTask: Job, firestoreClient: FirebaseFirestore.Firestore, avan
 async function setup() {
   console.log('Setting up application…')
   firestoreClient = await FirestoreService.createClient()
-  avanzaClient = await AvanzaService.createClient(config.avanza, Strategies.onQuote)
+  avanzaClient = await AvanzaService.createClient(config.avanza)
 
   Strategies.initialize()
 
-  recordPortfolioTask = scheduleJob('*/1 * * * *', async () => {
+  recordPortfolioTask = scheduleJob('*/5 9-18 * * 1-5', async () => {
     const portfolio = await AvanzaService.getPortfolio(avanzaClient, config.avanza.accountId)
-    FirestoreService.recordPortfolio(firestoreClient, portfolio)
+    FirestoreService.recordPortfolio(firestoreClient, config.portfolioId, portfolio)
   })
 
   console.log('Application started')
