@@ -1,11 +1,11 @@
 import Avanza from 'avanza-api'
-import { IAvanzaConfig /*, IQuote */ } from './../../interfaces'
+import { IAvanzaConfig } from './../../interfaces'
 
 export * from './getPortfolio'
 
 const avanza = new Avanza()
 
-export async function createClient(config: IAvanzaConfig, onQuotes) {
+export async function createClient(config: IAvanzaConfig) {
   try {
     await avanza.authenticate(config.credentials)
   } catch (e) {
