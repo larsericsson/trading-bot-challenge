@@ -5,11 +5,10 @@ export * from './recordPortfolio'
 
 const serviceAccount = require('./../../../service-account-key.json')
 
-export async function createClient() {
+export async function createClient(): Promise<FirebaseFirestore.Firestore> {
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
   })
-  const db = admin.firestore()
 
-  return db
+  return admin.firestore()
 }

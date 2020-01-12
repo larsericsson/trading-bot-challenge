@@ -4,15 +4,18 @@ import { IConfig } from './interfaces'
 import * as AvanzaService from './services/avanza'
 import * as FirestoreService from './services/firestore'
 import { onQuote } from './strategies'
+import Avanza from 'avanza-api'
 
 const config: IConfig = require('./../config.json')
 
-let recordPortfolioTask: schedule.Job
+let recordPortfolioTask: schedule.Job,
+  firestoreClient: FirebaseFirestore.Firestore,
+  avanzaClient: Avanza
 
 async function setup() {
   console.log('Setting up application…')
-  const firestoreClient = await FirestoreService.createClient()
-  const avanzaClient = await AvanzaService.createClient(config.avanza, onQuote)
+  firestoreClient = await FirestoreService.createClient()
+  avanzaClient = await AvanzaService.createClient(config.avanza, onQuote)
 
   recordPortfolioTask = schedule.scheduleJob('*/1 * * * *', async () => {
     const portfolio = await AvanzaService.getPortfolio(avanzaClient, config.avanza.accountId)
@@ -28,6 +31,7 @@ async function setup() {
 async function tearDown() {
   console.log('Shutting down application…')
   recordPortfolioTask.cancel()
+  firestoreClient.terminate()
 }
 
 process.on('SIGINT', tearDown)
