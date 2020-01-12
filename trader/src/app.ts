@@ -32,6 +32,7 @@ async function tearDown() {
   console.log('Shutting down application…')
   recordPortfolioTask.cancel()
   firestoreClient.terminate()
+  process.exit()
 }
 
 process.on('SIGINT', tearDown)
