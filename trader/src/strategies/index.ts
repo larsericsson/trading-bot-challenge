@@ -1,11 +1,20 @@
-import { scheduleJob } from 'node-schedule'
+import { scheduleJob, Job } from 'node-schedule'
 
 import { activeStrategies } from './active'
 import { IQuote } from '../interfaces'
 
 export function initialize() {
-  scheduleJob('50 8 * * 1-5', beforeMarketOpen)
-  scheduleJob('40 17 * * 1-5', afterMarketClose)
+  const scheduledJobs: Array<Job> = [
+    scheduleJob('beforeMarketOpens', '50 8 * * 1-5', beforeMarketOpen),
+    scheduleJob('afterMarketCloses', '40 17 * * 1-5', afterMarketClose)
+  ]
+
+  console.log('Strategies initialized')
+  console.group()
+  scheduledJobs.forEach(job => {
+    console.log(`Scheduled next invocation of ${job.name} task to ${job.nextInvocation()}`)
+  })
+  console.groupEnd()
 }
 
 export function onQuote(quote: IQuote) {
